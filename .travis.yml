@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build ./client -t mainakmaitra/react-test -f ./client/Dockerfile.dev
+
+script:
+  - docker run -e CI=true mainakmaitra/react-test npm run coverage
+
+after_success:
+  - docker build -t mainakmaitra/multi-client ./client
+  - docker build -t mainakmaitra/multi-server ./server
+  - docker build -t mainakmaitra/multi-nginx ./nginx
+  - docker build -t mainakmaitra/multi-worker ./worker
+  
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
+  - docker push mainakmaitra/multi-client
+  - docker push mainakmaitra/multi-server
+  - docker push mainakmaitra/multi-nginx
+  - docker push mainakmaitra/multi-worker 
+  
+  
