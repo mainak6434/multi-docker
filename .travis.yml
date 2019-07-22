@@ -12,7 +12,7 @@ script:
 after_success:
   - docker build -t mainakmaitra/multi-client ./client
   - docker build -t mainakmaitra/multi-server ./server
-  - docker build -t mainakmaitra/multi-nginx ./nginx
+  - docker build -t mainakmaitra/multi-nginx ./nginx -f ./nginx/Dockerfile.dev
   - docker build -t mainakmaitra/multi-worker ./worker
   
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
