@@ -1,0 +1,36 @@
+{
+	"AWSEBDockerrunVersion" : 2,
+	"containerDefinitions" : [
+		{
+			"name" : "client",
+			"image" : "mainakmaitra/multi-client",
+			"hostname" : "client",
+			"essential" : false
+		},
+		{
+			"name" : "server",
+			"image" : "mainakmaitra/multi-server",
+			"hostname" : "api",
+			"essential" : false
+		},
+		{
+			"name" : "worker",
+			"image" : "mainakmaitra/multi-worker",
+			"hostname" : "worker",
+			"essential" : false
+		},
+		{
+			"name" : "nginx",
+			"image" : "mainakmaitra/multi-nginx",
+			"hostname" : "nginx",
+			"essential" : true,
+			"portMappings" : [
+				{
+					"hostPort" : 80,
+					"containerPort" : 80
+				}
+			],
+			"links" : ["client", "server"]
+		}
+	]
+}
